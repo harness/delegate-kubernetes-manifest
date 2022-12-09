@@ -126,7 +126,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: delegate-service
+  name: PUT_YOUR_DELEGATE_NAME-delegate-service
   namespace: harness-delegate-ng
 spec:
   type: ClusterIP
