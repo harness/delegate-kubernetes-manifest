@@ -90,7 +90,7 @@ spec:
           failureThreshold: 15
         envFrom:
         - secretRef:
-            name: PUT_YOUR_DELEGATE_NAME_account-token
+            name: PUT_YOUR_DELEGATE_NAME-account-token
         env:
         - name: JAVA_OPTS
           value: "-Xms64M"
@@ -198,7 +198,7 @@ kind: CronJob
 metadata:
   labels:
     harness.io/name: upgrader-job
-  name: PUT_YOUR_DELEGATE_NAME_upgrader-job
+  name: PUT_YOUR_DELEGATE_NAME-upgrader-job
   namespace: harness-delegate-ng
 spec:
   schedule: "0 */1 * * *"
