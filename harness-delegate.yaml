@@ -39,7 +39,7 @@ kind: Deployment
 metadata:
   labels:
     harness.io/name: PUT_YOUR_DELEGATE_NAME
-  name: delegate
+  name: PUT_YOUR_DELEGATE_NAME
   namespace: harness-delegate-ng
 spec:
   replicas: 1
