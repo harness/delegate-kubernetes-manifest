@@ -79,7 +79,7 @@ spec:
             scheme: HTTP
           initialDelaySeconds: 10
           periodSeconds: 10
-          failureThreshold: 20
+          failureThreshold: 3
         startupProbe:
           httpGet:
             path: /api/health
@@ -177,6 +177,17 @@ metadata:
 ---
 
 apiVersion: v1
+kind: Secret
+metadata:
+  name: PUT_YOUR_DELEGATE_NAME-upgrader-token
+  namespace: harness-delegate-ng
+type: Opaque
+data:
+  UPGRADER_TOKEN: "PUT_YOUR_DELEGATE_TOKEN"
+
+---
+
+apiVersion: v1
 kind: ConfigMap
 metadata:
   name: PUT_YOUR_DELEGATE_NAME-upgrader-config
@@ -216,7 +227,7 @@ spec:
             imagePullPolicy: Always
             envFrom:
             - secretRef:
-                name: PUT_YOUR_DELEGATE_NAME-account-token
+                name: PUT_YOUR_DELEGATE_NAME-upgrader-token
             volumeMounts:
               - name: config-volume
                 mountPath: /etc/config
