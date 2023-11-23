@@ -43,6 +43,7 @@ metadata:
   namespace: harness-delegate-ng
 spec:
   replicas: 1
+  minReadySeconds: 120
   selector:
     matchLabels:
       harness.io/name: delegate
@@ -58,7 +59,7 @@ spec:
       terminationGracePeriodSeconds: 600
       restartPolicy: Always
       containers:
-      - image: harness/delegate:23.02.78500  # please do not use harness/delegate:latest
+      - image: PUT_YOUR_DELEGATE_IMAGE  # please do not use harness/delegate:latest
         imagePullPolicy: Always
         name: delegate
         securityContext:
@@ -78,8 +79,8 @@ spec:
             port: 3460
             scheme: HTTP
           initialDelaySeconds: 10
-          periodSeconds: 10
-          failureThreshold: 3
+          periodSeconds: 60
+          failureThreshold: 5
         startupProbe:
           httpGet:
             path: /api/health
@@ -120,6 +121,28 @@ spec:
           value: "true"
         - name: LOG_STREAMING_SERVICE_URL
           value: "PUT_YOUR_MANAGER_ENDPOINT/log-service/"
+        - name: DELEGATE_RESOURCE_THRESHOLD
+          value: ""
+        - name: DYNAMIC_REQUEST_HANDLING
+          value: "false"
+
+---
+
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+   name: kubernetes-delegate-hpa
+   namespace: harness-delegate-ng
+   labels:
+       harness.io/name: kubernetes-delegate
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: kubernetes-delegate
+  minReplicas: 1
+  maxReplicas: 1
+  targetCPUUtilizationPercentage: 99
 
 ---
 
